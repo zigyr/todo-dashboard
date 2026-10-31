@@ -90,12 +90,12 @@ the decision paralysis the product is meant to solve.
 - 依赖漏洞扫描；高危阻断合并。
 - 提交前检查个人信息（真实姓名、邮箱、本机路径、token）。
 
-## 8. UX / 可访问性 / 性能（Web 方案适用）
+## 8. UX / 可访问性 / 性能（桌面 WebView 适用）
 
 - WCAG 2.2 AA：键盘可达、焦点可见、对比度达标、语义化标签。
 - 性能预算（75th percentile，中端移动设备）：LCP ≤ 2.5s，INP ≤ 200ms，CLS ≤ 0.1。
 - 必须有空状态、加载态、错误态。
-- 先做响应式 Web；桌面端壳（如 Tauri）是后续选择，不是默认。
+- UI 用 Web 技术实现，但交付形态是 Windows 桌面；浏览器版本不作为 v0 目标。
 
 ## 9. 完成的定义（Definition of Done）
 
@@ -123,12 +123,12 @@ the decision paralysis the product is meant to solve.
 
 - 首次提交允许直接 push `main`（仅限初始化）。
 - PRD 与技术选型确定前，不引入框架 / 依赖。
-- 开源前必须确定 LICENSE；建议 MIT 或 Apache-2.0，待定。
+- 开源前必须确定 LICENSE；已暂定 MIT，待最终确认。
 - CI 在技术栈确定后 1 个 PR 内补齐；补齐前以本地检查为准。
 
 ## 12. 待定决策（将记录为 ADR）
 
-- Web vs Windows 桌面
+- Tauri vs .NET / WPF（见 ADR-0001）
 - Local-first vs 云同步
 - 技术栈
 - License

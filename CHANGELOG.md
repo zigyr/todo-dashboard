@@ -9,4 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Repository bootstrap: README, project charter, engineering standards, PRD draft.
+- Repository bootstrap: README, project charter, engineering standards, PR template.
+- Product direction: Windows desktop, local-first, URL-to-action workflow.
+- PRD v0.2: scope, functional requirements, data model, agent contract, ranking.
+- Methodology baseline: GTD, Personal Kanban, ICE/WSJF, implementation intentions.
+- ADR-0001 (proposed): Tauri 2 + React + TypeScript desktop stack.
+- MIT License.
