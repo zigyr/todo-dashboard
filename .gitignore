@@ -55,7 +55,11 @@ data/
 # WPF publish output
 desktop/publish/
 desktop/publish-portable/
+desktop/TodoDashboard-portable/
 desktop/*.zip
+
+# Harness project memory
+PROJECT_MEMORY.md
 
 # Temp
 tmp/

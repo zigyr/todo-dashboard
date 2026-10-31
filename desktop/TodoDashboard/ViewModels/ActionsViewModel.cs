@@ -30,6 +30,7 @@ public sealed class ActionsViewModel : ObservableObject
         StartActionCommand = new AsyncRelayCommand<ActionRecord>(StartAsync, _ => !IsBusy);
         CompleteActionCommand = new AsyncRelayCommand<ActionRecord>(CompleteAsync, _ => !IsBusy);
         DropActionCommand = new AsyncRelayCommand<ActionRecord>(DropAsync, _ => !IsBusy);
+        GoCaptureCommand = new RelayCommand(_ => CaptureRequested?.Invoke(this, EventArgs.Empty));
         SortOptions = new[] { "推荐", "由易到难", "最新" };
     }
 
@@ -122,6 +123,9 @@ public sealed class ActionsViewModel : ObservableObject
     public AsyncRelayCommand<ActionRecord> StartActionCommand { get; }
     public AsyncRelayCommand<ActionRecord> CompleteActionCommand { get; }
     public AsyncRelayCommand<ActionRecord> DropActionCommand { get; }
+    public RelayCommand GoCaptureCommand { get; }
+
+    public event EventHandler? CaptureRequested;
 
     public Task InitializeAsync() => RefreshAsync();
 

@@ -28,6 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Action dashboard window: sorted action list, one "现在做" card, start/complete/drop, drop reasons, and status writeback to Markdown.
 - ActionRepository for reading/updating action files; ActionsViewModel and DropReasonWindow.
 - Portable folder build and `TodoDashboard-portable.zip`, which avoid single-file temp extraction issues.
+- Unified single-window shell with 今天 / 捕获 / 回顾 navigation; 今天 is the default view and hosts the action dashboard.
 
 ### Changed
 

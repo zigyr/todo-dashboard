@@ -19,6 +19,9 @@ public sealed class MainViewModel : ObservableObject
     private string _url = "";
     private bool _isBusy;
     private bool _isAnalyzing;
+    private bool _isTodayView = true;
+    private bool _isCaptureView;
+    private bool _isReviewView;
     private SourcePreview? _preview;
     private SavedSource? _saved;
     private AnalysisResult? _analysis;
@@ -34,7 +37,8 @@ public sealed class MainViewModel : ObservableObject
         DeepSeekService deepSeek,
         ApiKeyStore apiKeyStore,
         string workspace,
-        Func<Task<string?>> requestApiKey)
+        Func<Task<string?>> requestApiKey,
+        Func<ActionRecord, Task<string?>> requestDropReason)
     {
         _captureService = captureService;
         _store = store;
@@ -43,6 +47,9 @@ public sealed class MainViewModel : ObservableObject
         _apiKeyStore = apiKeyStore;
         _requestApiKey = requestApiKey;
         _workspace = workspace;
+
+        Actions = new ActionsViewModel(new ActionRepository(workspace), requestDropReason);
+        Actions.CaptureRequested += (_, _) => IsCaptureView = true;
 
         CaptureCommand = new AsyncRelayCommand(CaptureAsync, () => CanCapture);
         SaveCommand = new AsyncRelayCommand(SaveAsync, () => HasPreview && !IsBusy);
@@ -64,6 +71,68 @@ public sealed class MainViewModel : ObservableObject
     }
 
     public ObservableCollection<SourceSummary> Recent { get; } = new();
+    public ActionsViewModel Actions { get; }
+
+    public bool IsTodayView
+    {
+        get => _isTodayView;
+        set
+        {
+            if (!SetProperty(ref _isTodayView, value))
+            {
+                return;
+            }
+
+            if (value)
+            {
+                _isCaptureView = false;
+                _isReviewView = false;
+                OnPropertyChanged(nameof(IsCaptureView));
+                OnPropertyChanged(nameof(IsReviewView));
+                _ = Actions.InitializeAsync();
+            }
+        }
+    }
+
+    public bool IsCaptureView
+    {
+        get => _isCaptureView;
+        set
+        {
+            if (!SetProperty(ref _isCaptureView, value))
+            {
+                return;
+            }
+
+            if (value)
+            {
+                _isTodayView = false;
+                _isReviewView = false;
+                OnPropertyChanged(nameof(IsTodayView));
+                OnPropertyChanged(nameof(IsReviewView));
+            }
+        }
+    }
+
+    public bool IsReviewView
+    {
+        get => _isReviewView;
+        set
+        {
+            if (!SetProperty(ref _isReviewView, value))
+            {
+                return;
+            }
+
+            if (value)
+            {
+                _isTodayView = false;
+                _isCaptureView = false;
+                OnPropertyChanged(nameof(IsTodayView));
+                OnPropertyChanged(nameof(IsCaptureView));
+            }
+        }
+    }
 
     public string Url
     {
@@ -269,7 +338,11 @@ public sealed class MainViewModel : ObservableObject
     public RelayCommand OpenUrlCommand { get; }
     public RelayCommand OpenWorkspaceCommand { get; }
 
-    public Task InitializeAsync() => RefreshAsync();
+    public async Task InitializeAsync()
+    {
+        await RefreshAsync();
+        await Actions.InitializeAsync();
+    }
 
     private async Task CaptureAsync()
     {

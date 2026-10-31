@@ -1,4 +1,5 @@
 using System.Windows;
+using TodoDashboard.Models;
 using TodoDashboard.Services;
 using TodoDashboard.ViewModels;
 using TodoDashboard.Views;
@@ -21,7 +22,8 @@ public partial class MainWindow : Window
             new DeepSeekService(),
             new ApiKeyStore(),
             workspace,
-            PromptForApiKeyAsync);
+            PromptForApiKeyAsync,
+            PromptDropReasonAsync);
         DataContext = _viewModel;
 
         Loaded += async (_, _) => await _viewModel.InitializeAsync();
@@ -37,12 +39,13 @@ public partial class MainWindow : Window
         return Task.FromResult(dialog.ShowDialog() == true ? dialog.ApiKey : null);
     }
 
-    private void OpenActions_Click(object sender, RoutedEventArgs e)
+    private Task<string?> PromptDropReasonAsync(ActionRecord action)
     {
-        var window = new ActionsWindow
+        var dialog = new DropReasonWindow(action.Title)
         {
             Owner = this,
         };
-        window.Show();
+
+        return Task.FromResult(dialog.ShowDialog() == true ? dialog.Reason : null);
     }
 }
