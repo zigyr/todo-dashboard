@@ -22,6 +22,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - WPF desktop app (`desktop/TodoDashboard`): .NET 8, XAML, AngleSharp, local JSON + Markdown store.
 - Design mockup and designer-facing requirements (`design/`).
 - Portable data folder fallback, so a blocked `%USERPROFILE%` does not crash the app.
+- DeepSeek AI analysis: article → 3–7 structured actions, human review with checkboxes, save to `data/actions/*.md`.
+- API Key dialog and Windows Credential Manager storage; `DEEPSEEK_API_KEY` environment variable for development.
+- Local mock server verification for the full analyze → review → save flow.
 
 ### Changed
 

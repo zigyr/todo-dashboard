@@ -6,14 +6,24 @@
 
 ![界面预览](design/app-preview.png)
 
+![AI 拆解](design/app-ai.png)
+
 ## 现在能做什么
 
 - 粘贴一篇博客的网址；
 - 抓取标题、作者、发布日期、正文、字数；
 - 先看预览，确认后再保存；
-- 保存为本地文件：`data/sources/*.md` + `*.json`；
+- 点「AI 拆解」，让 DeepSeek 把文章拆成 3–7 条可执行行动；
+- 勾选要保留的行动，保存到 `data/actions/*.md`；
+- 保存原文为 `data/sources/*.md` + `*.json`；
 - 左栏显示最近抓取和本地工作区；
 - 拦截 `localhost` 和内网地址，避免乱抓本机服务。
+
+## API Key
+
+- 第一次点「AI 拆解」时会弹窗输入 DeepSeek API Key；
+- Key 保存在 Windows 凭据管理器，不写进项目文件；
+- 开发/测试时也可以用环境变量 `DEEPSEEK_API_KEY`，它会优先于凭据管理器。
 
 ## 技术栈
 
@@ -53,7 +63,14 @@ dotnet publish desktop/TodoDashboard/TodoDashboard.csproj -c Release -r win-x64 
 - [x] 界面设计图确认
 - [x] WPF 第一版：URL → 抓取 → 预览 → 保存
 - [x] 真实博客端到端验证（抓取、预览、保存成功）
-- [ ] 下一步：接 DeepSeek，把文章拆成 3–7 条行动
+- [x] AI 拆解：DeepSeek → 3–7 条行动 → 勾选 → 保存（本地 mock 验证）
+- [ ] 下一步：行动仪表盘（一个「现在做」+ 排序）
+
+## 数据文件
+
+- `data/sources/*.md` / `*.json`：抓取的文章；
+- `data/actions/*.md`：AI 拆解后你确认保留的行动，带 YAML frontmatter；
+- 全部是普通文件，可以直接用 Obsidian / 记事本打开。
 
 ## 文档
 
