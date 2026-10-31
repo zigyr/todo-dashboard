@@ -52,6 +52,9 @@ src-tauri/gen/
 # App data (local workspace)
 data/
 
+# WPF publish output
+desktop/publish/
+
 # Temp
 tmp/
 temp/

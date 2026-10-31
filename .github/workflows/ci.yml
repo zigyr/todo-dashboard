@@ -9,6 +9,15 @@ permissions:
   contents: read
 
 jobs:
+  wpf:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+      - run: dotnet build desktop/TodoDashboard/TodoDashboard.csproj -c Release
+
   web:
     runs-on: windows-latest
     steps:
