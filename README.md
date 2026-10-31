@@ -56,6 +56,18 @@ dotnet publish desktop/TodoDashboard/TodoDashboard.csproj -c Release -r win-x64 
 
 产物：`desktop/publish/TodoDashboard.exe`。
 
+## 如果双击 exe 没反应
+
+单文件版启动时，要把 WPF 的运行组件解压到系统临时目录。如果系统临时目录被权限限制，就会「双击没反应」。
+
+用文件夹版最稳：
+
+1. 解压 `desktop/TodoDashboard-portable.zip`；
+2. 双击里面的 `TodoDashboard.exe`；
+3. 数据保存在同目录的 `data/` 文件夹。
+
+文件夹版不需要临时目录，也不需要安装 .NET。
+
 ## 数据放在哪
 
 - 默认：exe 同目录的 `data/`（便携，整个文件夹可以拷走）；

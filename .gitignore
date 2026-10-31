@@ -54,6 +54,8 @@ data/
 
 # WPF publish output
 desktop/publish/
+desktop/publish-portable/
+desktop/*.zip
 
 # Temp
 tmp/

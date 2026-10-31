@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Local mock server verification for the full analyze → review → save flow.
 - Action dashboard window: sorted action list, one "现在做" card, start/complete/drop, drop reasons, and status writeback to Markdown.
 - ActionRepository for reading/updating action files; ActionsViewModel and DropReasonWindow.
+- Portable folder build and `TodoDashboard-portable.zip`, which avoid single-file temp extraction issues.
 
 ### Changed
 
