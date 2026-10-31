@@ -35,23 +35,43 @@
 
 ## 项目状态
 
-**Pre-alpha / PRD v0.2 待确认**。平台已定为 Windows 桌面；技术栈提议 Tauri 2 + React + TypeScript（见 ADR-0001，待确认）。
+**Pre-alpha / M1 代码完成，等待运行环境验证**。URL 捕获、正文提取、本地保存已实现；前端构建和后端测试通过。当前开发机的 WebView2 运行时崩溃，见 [已知问题](docs/KNOWN_ISSUES.md)。
 
 - [x] 仓库初始化
 - [x] 项目章程 / 工程规范
-- [x] PRD v0.2 草稿
-- [ ] PRD 评审
-- [ ] 技术栈 ADR 确认
-- [ ] M1 垂直切片（URL → 分析 → 复核 → 文件 → 列表）
+- [x] PRD v0.2 确认
+- [x] 技术栈 ADR 确认
+- [x] M1 代码：URL → 抓取 → 本地保存
+- [ ] M1 GUI 验证（WebView2 运行时）
+- [ ] M2：DeepSeek 分析 / 复核
+- [ ] M3：仪表盘 / 排序 / 周复盘
 - [ ] 两周 dogfood
+
+## 开发
+
+需要：Windows 10 19045+ / Windows 11、Node.js 24+、Rust stable、Visual Studio Build Tools（C++）、WebView2。
+
+```powershell
+npm install
+npm run tauri dev
+```
+
+构建单个 exe：
+
+```powershell
+npm run tauri build
+```
+
+开发时的数据默认写在仓库的 `data/` 目录；也可以用环境变量 `TODO_DASHBOARD_DATA_DIR` 指定。
 
 ## 文档
 
 - [项目章程](docs/CHARTER.md) — 为什么做、为谁做、不做什么
-- [PRD](docs/PRD.md) — v0.2，待评审
+- [PRD](docs/PRD.md) — v0.2，已确认
 - [方法论](docs/METHODOLOGY.md) — GTD、Personal Kanban、ICE/WSJF、执行意图
 - [工程规范](docs/ENGINEERING.md) — 分支、提交、质量门禁与协作约定
-- [ADR-0001](docs/adr/0001-desktop-stack.md) — Windows 技术栈提案
+- [ADR-0001](docs/adr/0001-desktop-stack.md) — Windows 技术栈（已确认）
+- [已知问题](docs/KNOWN_ISSUES.md) — 当前 WebView2 运行环境问题
 
 ## License
 

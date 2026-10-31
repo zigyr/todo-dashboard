@@ -46,6 +46,16 @@ venv/
 # Rust
 target/
 
+# Tauri generated
+src-tauri/gen/
+
+# App data (local workspace)
+data/
+
 # Temp
 tmp/
 temp/
+.tools/
+
+# WebView2 dev data
+.webview2/
