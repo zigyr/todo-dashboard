@@ -36,4 +36,13 @@ public partial class MainWindow : Window
 
         return Task.FromResult(dialog.ShowDialog() == true ? dialog.ApiKey : null);
     }
+
+    private void OpenActions_Click(object sender, RoutedEventArgs e)
+    {
+        var window = new ActionsWindow
+        {
+            Owner = this,
+        };
+        window.Show();
+    }
 }
