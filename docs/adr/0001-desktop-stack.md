@@ -77,4 +77,27 @@
 2026-11-01：接受 Tauri 2 + React + TypeScript；接受 WebView2 与 Rust 工具链。
 暂不做：代码签名、自动更新（后续单独立项）。
 
+## 2026-11-01 复核：性价比与运行环境
+
+**结论：继续用 Tauri 2 + React + TypeScript。**
+
+理由：
+
+- 最终用户不需要装 Node / Rust，只需要 Windows 10/11 通常自带的 WebView2；
+- 安装包小（几 MB 到十几 MB），启动快；
+- 仪表盘、Markdown、流式输出用 Web 技术开发最快；
+- 开发环境已经搭好，换栈要重写界面，反而更贵。
+
+代价与风险：
+
+- 开发机需要 Node + Rust + VS Build Tools（已装好）；
+- 依赖 WebView2。当前这台机器的 WebView2 运行时崩溃（见 `docs/KNOWN_ISSUES.md`），但 Edge 浏览器正常，判断是运行时/会话问题，不是 Tauri 本身。
+
+**换栈触发条件：**
+
+- 用管理员权限修复/重装 WebView2 后仍然崩溃；
+- 或者目标用户环境中 WebView2 普遍不可用。
+
+满足任一条件时，改用 **.NET 8 + WPF**（备选 Avalonia）。换栈只换界面层，数据格式（JSON + Markdown）、PRD、交互流程不变；换栈前另开 ADR-0002 记录原因，不直接改本文件。
+
 > 如果后续更换，另开 ADR 记录原因，不直接改本文件。
