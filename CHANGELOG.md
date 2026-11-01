@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Removed
+
+- 应用内「阅读原文」窗口（纯文本，阅读体验差）。
+- 「打开原文」跳转按钮及相关实现：该 Windows 会话禁止应用拉起或驱动浏览器（新进程 `0xC0000142`、`explorer.exe` 转发弹错、`Shell.Application` 假成功、按键注入被 UIPI 拦），不做无用的跳转尝试。
+
 ### Added
 
 - Repository bootstrap: README, project charter, engineering standards, PR template.
@@ -34,6 +39,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- 「打开原文」改为「复制链接」：点击把原文网址放进剪贴板，摘要页与历史页各一个按钮。
 - PRD v0.2 confirmed: URL-only capture, Tauri stack, MIT license.
 - Delivery split: M1 is URL capture and local save; DeepSeek analysis moves to M2.
 - Primary desktop path switched from Tauri/WebView2 to .NET 8 + WPF (ADR-0002); Tauri code kept as prototype.

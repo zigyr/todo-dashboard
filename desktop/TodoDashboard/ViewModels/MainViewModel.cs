@@ -19,6 +19,7 @@ public sealed class MainViewModel : ObservableObject
     private SourcePreview? _preview;
     private ArticleAnalysis? _analysis;
     private string? _errorMessage;
+    private string _linkNote = "";
 
     public MainViewModel(
         UrlCaptureService captureService,
@@ -35,7 +36,7 @@ public sealed class MainViewModel : ObservableObject
         History = new HistoryViewModel(historyStore, pickCsv);
 
         SummarizeCommand = new AsyncRelayCommand(SummarizeAsync, () => CanSummarize);
-        OpenUrlCommand = new RelayCommand(_ => OpenUrl());
+        CopyUrlCommand = new RelayCommand(_ => CopyUrl());
         ResetCommand = new RelayCommand(_ => Reset());
     }
 
@@ -140,6 +141,18 @@ public sealed class MainViewModel : ObservableObject
         }
     }
 
+    public string LinkNote
+    {
+        get => string.IsNullOrWhiteSpace(_linkNote) ? "正文不保存，只保留这条原文链接。" : _linkNote;
+        private set
+        {
+            if (SetProperty(ref _linkNote, value ?? ""))
+            {
+                OnPropertyChanged(nameof(LinkNote));
+            }
+        }
+    }
+
     public bool CanSummarize => !IsBusy && !string.IsNullOrWhiteSpace(Url);
     public bool HasResult => Analysis is not null;
     public bool IsEmpty => !HasResult && !IsBusy;
@@ -158,7 +171,7 @@ public sealed class MainViewModel : ObservableObject
     public string ReadingTip => Analysis?.ReadingTip ?? "";
 
     public AsyncRelayCommand SummarizeCommand { get; }
-    public RelayCommand OpenUrlCommand { get; }
+    public RelayCommand CopyUrlCommand { get; }
     public RelayCommand ResetCommand { get; }
 
     public Task InitializeAsync() => History.InitializeAsync();
@@ -195,6 +208,7 @@ public sealed class MainViewModel : ObservableObject
         ErrorMessage = null;
         Analysis = null;
         Preview = null;
+        LinkNote = "";
 
         try
         {
@@ -239,22 +253,9 @@ public sealed class MainViewModel : ObservableObject
         }
     }
 
-    private void OpenUrl()
+    private void CopyUrl()
     {
-        var target = Preview?.CanonicalUrl;
-        if (string.IsNullOrWhiteSpace(target))
-        {
-            return;
-        }
-
-        try
-        {
-            Process.Start(new ProcessStartInfo(target) { UseShellExecute = true });
-        }
-        catch (Exception error)
-        {
-            ErrorMessage = "打开网址失败：" + error.Message;
-        }
+        LinkNote = LinkClipboard.CopyAndDescribe(Preview?.CanonicalUrl);
     }
 
     private void Reset()
@@ -262,6 +263,7 @@ public sealed class MainViewModel : ObservableObject
         Preview = null;
         Analysis = null;
         ErrorMessage = null;
+        LinkNote = "";
         Url = "";
     }
 }

@@ -19,7 +19,7 @@ public sealed class HistoryViewModel : ObservableObject
         _pickCsv = pickCsv;
         ImportCommand = new AsyncRelayCommand(ImportAsync, () => !IsBusy);
         OpenFolderCommand = new RelayCommand(_ => OpenFolder());
-        OpenSelectedUrlCommand = new RelayCommand(_ => OpenSelectedUrl());
+        CopySelectedUrlCommand = new RelayCommand(_ => CopySelectedUrl());
 
         Entries.CollectionChanged += (_, _) =>
         {
@@ -67,7 +67,7 @@ public sealed class HistoryViewModel : ObservableObject
 
     public AsyncRelayCommand ImportCommand { get; }
     public RelayCommand OpenFolderCommand { get; }
-    public RelayCommand OpenSelectedUrlCommand { get; }
+    public RelayCommand CopySelectedUrlCommand { get; }
 
     public async Task InitializeAsync()
     {
@@ -148,21 +148,8 @@ public sealed class HistoryViewModel : ObservableObject
         }
     }
 
-    private void OpenSelectedUrl()
+    private void CopySelectedUrl()
     {
-        var url = SelectedEntry?.Url;
-        if (string.IsNullOrWhiteSpace(url))
-        {
-            return;
-        }
-
-        try
-        {
-            Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
-        }
-        catch (Exception error)
-        {
-            Notice = "打开原文失败：" + error.Message;
-        }
+        Notice = LinkClipboard.CopyAndDescribe(SelectedEntry?.Url);
     }
 }
