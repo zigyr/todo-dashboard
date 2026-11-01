@@ -19,6 +19,8 @@
     <SolidColorBrush x:Key="AccentBrush" Color="#2E6B4F" />
     <SolidColorBrush x:Key="AccentDeepBrush" Color="#1F4B37" />
     <SolidColorBrush x:Key="AccentSoftBrush" Color="#E5EFE7" />
+    <SolidColorBrush x:Key="AccentSoftTransparentBrush" Color="#99E5EFE7" />
+    <SolidColorBrush x:Key="Surface2TransparentBrush" Color="#80F1EDE2" />
     <SolidColorBrush x:Key="DangerBrush" Color="#A8402C" />
     <SolidColorBrush x:Key="DangerSoftBrush" Color="#F8E6E1" />
 
@@ -148,10 +150,10 @@
                   </Border>
                   <ControlTemplate.Triggers>
                     <Trigger Property="IsSelected" Value="True">
-                      <Setter TargetName="ItemBorder" Property="Background" Value="{StaticResource AccentSoftBrush}" />
+                      <Setter TargetName="ItemBorder" Property="Background" Value="{StaticResource AccentSoftTransparentBrush}" />
                     </Trigger>
                     <Trigger Property="IsMouseOver" Value="True">
-                      <Setter TargetName="ItemBorder" Property="Background" Value="{StaticResource Surface2Brush}" />
+                      <Setter TargetName="ItemBorder" Property="Background" Value="{StaticResource Surface2TransparentBrush}" />
                     </Trigger>
                   </ControlTemplate.Triggers>
                 </ControlTemplate>
