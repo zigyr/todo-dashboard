@@ -40,6 +40,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - WPF app verified end-to-end on a real blog: fetch → preview → save `.md` + `.json`.
 - AI direction changed: it now only analyzes and explains; it no longer splits articles into action lists. The user writes one task manually after reading the explanation.
 - Product simplified to summary-only: paste URL, fetch in memory, show AI summary/explanation/key ideas, and open the original link. Removed local article save, manual tasks, action dashboard, and weekly review.
+- Two-page shell: 摘要 and 历史. Summary fits without page scrolling; history uses a vertical timeline on the left and scrollable detail on the right.
+- Local CSV history (`history.csv`) with automatic append and CSV import that overwrites the local store. No account or login.
 
 ### Fixed
 

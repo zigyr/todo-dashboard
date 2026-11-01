@@ -14,6 +14,8 @@ public sealed class MainViewModel : ObservableObject
 
     private string _url = "";
     private bool _isBusy;
+    private bool _isSummaryView = true;
+    private bool _isHistoryView;
     private SourcePreview? _preview;
     private ArticleAnalysis? _analysis;
     private string? _errorMessage;
@@ -22,16 +24,47 @@ public sealed class MainViewModel : ObservableObject
         UrlCaptureService captureService,
         DeepSeekService deepSeek,
         ApiKeyStore apiKeyStore,
-        Func<Task<string?>> requestApiKey)
+        HistoryStore historyStore,
+        Func<Task<string?>> requestApiKey,
+        Func<Task<string?>> pickCsv)
     {
         _captureService = captureService;
         _deepSeek = deepSeek;
         _apiKeyStore = apiKeyStore;
         _requestApiKey = requestApiKey;
+        History = new HistoryViewModel(historyStore, pickCsv);
 
         SummarizeCommand = new AsyncRelayCommand(SummarizeAsync, () => CanSummarize);
         OpenUrlCommand = new RelayCommand(_ => OpenUrl());
         ResetCommand = new RelayCommand(_ => Reset());
+    }
+
+    public HistoryViewModel History { get; }
+
+    public bool IsSummaryView
+    {
+        get => _isSummaryView;
+        set
+        {
+            if (SetProperty(ref _isSummaryView, value) && value)
+            {
+                _isHistoryView = false;
+                OnPropertyChanged(nameof(IsHistoryView));
+            }
+        }
+    }
+
+    public bool IsHistoryView
+    {
+        get => _isHistoryView;
+        set
+        {
+            if (SetProperty(ref _isHistoryView, value) && value)
+            {
+                _isSummaryView = false;
+                OnPropertyChanged(nameof(IsSummaryView));
+            }
+        }
     }
 
     public string Url
@@ -128,6 +161,8 @@ public sealed class MainViewModel : ObservableObject
     public RelayCommand OpenUrlCommand { get; }
     public RelayCommand ResetCommand { get; }
 
+    public Task InitializeAsync() => History.InitializeAsync();
+
     private async Task SummarizeAsync()
     {
         var normalized = UrlNormalizer.Normalize(Url);
@@ -165,6 +200,26 @@ public sealed class MainViewModel : ObservableObject
         {
             Preview = await _captureService.CaptureAsync(normalized);
             Analysis = await _deepSeek.AnalyzeAsync(Preview, apiKey);
+
+            var entry = new HistoryEntry
+            {
+                CreatedAt = DateTimeOffset.Now,
+                Url = Preview.CanonicalUrl,
+                Title = Preview.Title,
+                Author = Preview.Author ?? "",
+                PublishedAt = Formatting.Date(Preview.PublishedAt ?? Preview.FetchedAt),
+                WordCount = Preview.WordCount,
+                Summary = Analysis.Summary,
+            };
+
+            try
+            {
+                await History.AddAsync(entry);
+            }
+            catch (Exception historyError)
+            {
+                ErrorMessage = "摘要已生成，但历史保存失败：" + historyError.Message;
+            }
         }
         catch (CaptureException error)
         {

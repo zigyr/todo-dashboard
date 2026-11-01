@@ -29,10 +29,10 @@
       <Setter Property="BorderBrush" Value="{StaticResource LineBrush}" />
       <Setter Property="BorderThickness" Value="1" />
       <Setter Property="CornerRadius" Value="18" />
-      <Setter Property="Padding" Value="24" />
+      <Setter Property="Padding" Value="22" />
       <Setter Property="Effect">
         <Setter.Value>
-          <DropShadowEffect BlurRadius="26" ShadowDepth="10" Opacity="0.08" Color="#3D3726" />
+          <DropShadowEffect BlurRadius="22" ShadowDepth="8" Opacity="0.07" Color="#3D3726" />
         </Setter.Value>
       </Setter>
     </Style>
@@ -53,14 +53,14 @@
       <Setter Property="Background" Value="{StaticResource AccentDeepBrush}" />
       <Setter Property="Foreground" Value="White" />
       <Setter Property="BorderThickness" Value="0" />
-      <Setter Property="Padding" Value="20,12" />
-      <Setter Property="FontSize" Value="14" />
+      <Setter Property="Padding" Value="20,11" />
+      <Setter Property="FontSize" Value="13.5" />
       <Setter Property="FontWeight" Value="SemiBold" />
       <Setter Property="Cursor" Value="Hand" />
       <Setter Property="Template">
         <Setter.Value>
           <ControlTemplate TargetType="Button">
-            <Border Background="{TemplateBinding Background}" CornerRadius="12" Padding="{TemplateBinding Padding}">
+            <Border Background="{TemplateBinding Background}" CornerRadius="11" Padding="{TemplateBinding Padding}">
               <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Border>
             <ControlTemplate.Triggers>
@@ -81,8 +81,8 @@
       <Setter Property="Foreground" Value="{StaticResource InkBrush}" />
       <Setter Property="BorderBrush" Value="{StaticResource LineBrush}" />
       <Setter Property="BorderThickness" Value="1" />
-      <Setter Property="Padding" Value="18,11" />
-      <Setter Property="FontSize" Value="13" />
+      <Setter Property="Padding" Value="14,9" />
+      <Setter Property="FontSize" Value="12.5" />
       <Setter Property="Cursor" Value="Hand" />
       <Setter Property="Template">
         <Setter.Value>
@@ -90,7 +90,7 @@
             <Border Background="{TemplateBinding Background}"
                     BorderBrush="{TemplateBinding BorderBrush}"
                     BorderThickness="{TemplateBinding BorderThickness}"
-                    CornerRadius="12"
+                    CornerRadius="11"
                     Padding="{TemplateBinding Padding}">
               <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Border>
@@ -104,25 +104,60 @@
       </Setter>
     </Style>
 
-    <Style x:Key="LinkButton" TargetType="Button">
-      <Setter Property="Background" Value="Transparent" />
-      <Setter Property="Foreground" Value="{StaticResource AccentDeepBrush}" />
-      <Setter Property="BorderThickness" Value="0" />
-      <Setter Property="Padding" Value="8,6" />
-      <Setter Property="FontSize" Value="13" />
+    <Style x:Key="NavRadio" TargetType="RadioButton">
+      <Setter Property="Foreground" Value="{StaticResource MutedBrush}" />
+      <Setter Property="FontSize" Value="13.5" />
       <Setter Property="Cursor" Value="Hand" />
+      <Setter Property="Margin" Value="0,0,24,0" />
       <Setter Property="Template">
         <Setter.Value>
-          <ControlTemplate TargetType="Button">
-            <Border Background="{TemplateBinding Background}" CornerRadius="8" Padding="{TemplateBinding Padding}">
-              <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-            </Border>
+          <ControlTemplate TargetType="RadioButton">
+            <StackPanel Background="Transparent">
+              <ContentPresenter HorizontalAlignment="Center" />
+              <Border x:Name="NavUnderline" Height="2" Background="Transparent" Margin="0,5,0,0" />
+            </StackPanel>
             <ControlTemplate.Triggers>
+              <Trigger Property="IsChecked" Value="True">
+                <Setter Property="Foreground" Value="{StaticResource InkBrush}" />
+                <Setter TargetName="NavUnderline" Property="Background" Value="{StaticResource AccentBrush}" />
+              </Trigger>
               <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="{StaticResource AccentSoftBrush}" />
+                <Setter Property="Foreground" Value="{StaticResource InkBrush}" />
               </Trigger>
             </ControlTemplate.Triggers>
           </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+
+    <Style x:Key="TimelineList" TargetType="ListBox">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderThickness" Value="0" />
+      <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
+      <Setter Property="ItemContainerStyle">
+        <Setter.Value>
+          <Style TargetType="ListBoxItem">
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Margin" Value="0" />
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="Template">
+              <Setter.Value>
+                <ControlTemplate TargetType="ListBoxItem">
+                  <Border x:Name="ItemBorder" Background="Transparent" CornerRadius="10" Padding="2,0">
+                    <ContentPresenter />
+                  </Border>
+                  <ControlTemplate.Triggers>
+                    <Trigger Property="IsSelected" Value="True">
+                      <Setter TargetName="ItemBorder" Property="Background" Value="{StaticResource AccentSoftBrush}" />
+                    </Trigger>
+                    <Trigger Property="IsMouseOver" Value="True">
+                      <Setter TargetName="ItemBorder" Property="Background" Value="{StaticResource Surface2Brush}" />
+                    </Trigger>
+                  </ControlTemplate.Triggers>
+                </ControlTemplate>
+              </Setter.Value>
+            </Setter>
+          </Style>
         </Setter.Value>
       </Setter>
     </Style>
@@ -132,45 +167,62 @@
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto" />
       <RowDefinition Height="*" />
-      <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
 
     <Border Grid.Row="0" Background="{StaticResource SurfaceBrush}"
-            BorderBrush="{StaticResource LineBrush}" BorderThickness="0,0,0,1" Padding="32,14">
+            BorderBrush="{StaticResource LineBrush}" BorderThickness="0,0,0,1" Padding="32,13">
       <Grid>
-        <StackPanel Orientation="Horizontal">
-          <Border Width="38" Height="38" CornerRadius="11" Background="{StaticResource AccentDeepBrush}">
-            <TextBlock Text="&#xE73E;" FontFamily="Segoe MDL2 Assets" Foreground="White" FontSize="18"
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0" Orientation="Horizontal">
+          <Border Width="36" Height="36" CornerRadius="10" Background="{StaticResource AccentDeepBrush}">
+            <TextBlock Text="&#xE73E;" FontFamily="Segoe MDL2 Assets" Foreground="White" FontSize="17"
                        HorizontalAlignment="Center" VerticalAlignment="Center" />
           </Border>
-          <StackPanel Margin="12,0,0,0" VerticalAlignment="Center">
-            <TextBlock Text="Todo Dashboard" FontSize="15" FontWeight="SemiBold" Foreground="{StaticResource InkBrush}" />
+          <StackPanel Margin="11,0,0,0" VerticalAlignment="Center">
+            <TextBlock Text="Todo Dashboard" FontSize="14.5" FontWeight="SemiBold" Foreground="{StaticResource InkBrush}" />
             <TextBlock Text="READING → SUMMARY" FontSize="9" Foreground="{StaticResource MutedBrush}" Margin="0,2,0,0" />
           </StackPanel>
         </StackPanel>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
-          <Ellipse Width="7" Height="7" Fill="#4F9B74" Margin="0,0,8,0" />
-          <TextBlock Text="不保存正文 · 只给原文链接" FontSize="12" Foreground="{StaticResource MutedBrush}" />
+        <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+          <RadioButton Content="摘要" Style="{StaticResource NavRadio}"
+                       IsChecked="{Binding IsSummaryView, Mode=TwoWay}" />
+          <RadioButton Content="历史" Style="{StaticResource NavRadio}"
+                       IsChecked="{Binding IsHistoryView, Mode=TwoWay}" />
         </StackPanel>
+        <TextBlock Grid.Column="2" Text="本地 CSV" FontSize="11.5" Foreground="{StaticResource MutedBrush}"
+                   VerticalAlignment="Center" />
       </Grid>
     </Border>
 
-    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-      <StackPanel Width="840" HorizontalAlignment="Center" Margin="0,40,0,32">
-        <TextBlock Text="阅读摘要" Style="{StaticResource Eyebrow}" />
-        <TextBlock Text="把一篇博客，读成一段摘要。" FontSize="44" FontWeight="SemiBold"
-                   Foreground="{StaticResource InkBrush}" TextWrapping="Wrap" Margin="0,10,0,12" LineHeight="52" />
-        <TextBlock Text="粘贴网址。AI 读完，给你摘要、关键观点和原文链接。不保存正文，不生成任务。"
-                   Style="{StaticResource MutedText}" FontSize="15" TextWrapping="Wrap" />
+    <!-- Summary view: no page scroll -->
+    <Grid Grid.Row="1" Visibility="{Binding IsSummaryView, Converter={StaticResource BoolToVis}}">
+      <Grid Width="880" HorizontalAlignment="Center" Margin="0,24,0,24">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
 
-        <Border Style="{StaticResource CardBorder}" Margin="0,24,0,0">
+        <StackPanel Grid.Row="0">
+          <TextBlock Text="阅读摘要" Style="{StaticResource Eyebrow}" />
+          <TextBlock Text="把一篇博客，读成一段摘要。" FontSize="34" FontWeight="SemiBold"
+                     Foreground="{StaticResource InkBrush}" TextWrapping="Wrap" Margin="0,7,0,7" />
+          <TextBlock Text="粘贴网址。AI 读完给你摘要和关键观点；正文不保存，只留原文链接。"
+                     Style="{StaticResource MutedText}" FontSize="13.5" TextWrapping="Wrap" />
+        </StackPanel>
+
+        <Border Grid.Row="1" Style="{StaticResource CardBorder}" Margin="0,16,0,0" Padding="16">
           <StackPanel>
             <Grid>
               <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
               </Grid.ColumnDefinitions>
-              <Border Grid.Column="0" Height="52" CornerRadius="12" Margin="0,0,12,0">
+              <Border Grid.Column="0" Height="46" CornerRadius="11" Margin="0,0,10,0">
                 <Border.Style>
                   <Style TargetType="Border">
                     <Setter Property="Background" Value="{StaticResource SurfaceBrush}" />
@@ -189,121 +241,224 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                   </Grid.ColumnDefinitions>
-                  <TextBlock Grid.Column="0" Text="&#xE71B;" FontFamily="Segoe MDL2 Assets" FontSize="15"
-                             Foreground="{StaticResource MutedBrush}" VerticalAlignment="Center" Margin="14,0,8,0" />
+                  <TextBlock Grid.Column="0" Text="&#xE71B;" FontFamily="Segoe MDL2 Assets" FontSize="14"
+                             Foreground="{StaticResource MutedBrush}" VerticalAlignment="Center" Margin="12,0,7,0" />
                   <TextBox Grid.Column="1" Text="{Binding Url, UpdateSourceTrigger=PropertyChanged}"
-                           BorderThickness="0" Background="Transparent" FontSize="15"
-                           VerticalContentAlignment="Center" Padding="0,0,12,0"
+                           BorderThickness="0" Background="Transparent" FontSize="14"
+                           VerticalContentAlignment="Center" Padding="0,0,10,0"
                            AutomationProperties.AutomationId="UrlInput"
                            AutomationProperties.Name="博客网址" />
                 </Grid>
               </Border>
               <Button Grid.Column="1" Content="{Binding ButtonText}" Command="{Binding SummarizeCommand}"
-                      Style="{StaticResource PrimaryButton}" MinWidth="124"
+                      Style="{StaticResource PrimaryButton}" MinWidth="118"
                       AutomationProperties.AutomationId="SummarizeButton"
                       AutomationProperties.Name="生成摘要" />
             </Grid>
 
             <ProgressBar Height="3" IsIndeterminate="True" Foreground="{StaticResource AccentBrush}"
-                         Background="Transparent" BorderThickness="0" Margin="0,14,0,0"
+                         Background="Transparent" BorderThickness="0" Margin="0,11,0,0"
                          Visibility="{Binding IsBusy, Converter={StaticResource BoolToVis}}" />
 
             <Border Background="{StaticResource DangerSoftBrush}" BorderBrush="#ECCBC2" BorderThickness="1"
-                    CornerRadius="10" Padding="14,10" Margin="0,12,0,0"
+                    CornerRadius="9" Padding="12,8" Margin="0,9,0,0"
                     Visibility="{Binding HasError, Converter={StaticResource BoolToVis}}">
               <TextBlock Text="{Binding ErrorMessage}" Foreground="{StaticResource DangerBrush}"
-                         TextWrapping="Wrap" FontSize="13" />
+                         TextWrapping="Wrap" FontSize="12" />
             </Border>
           </StackPanel>
         </Border>
 
-        <Border Style="{StaticResource CardBorder}" Margin="0,20,0,0"
-                Visibility="{Binding HasResult, Converter={StaticResource BoolToVis}}">
-          <StackPanel>
+        <Grid Grid.Row="2" Margin="0,16,0,0">
+          <Border Style="{StaticResource CardBorder}" Padding="22"
+                  Visibility="{Binding HasResult, Converter={StaticResource BoolToVis}}">
             <Grid>
-              <StackPanel>
-                <TextBlock Text="AI 摘要" Style="{StaticResource Eyebrow}" />
-                <TextBlock Text="{Binding ResultTitle}" FontSize="26" FontWeight="SemiBold"
-                           Foreground="{StaticResource InkBrush}" TextWrapping="Wrap" Margin="0,8,0,6" />
-                <TextBlock Text="{Binding ResultMeta}" Style="{StaticResource MutedText}" FontSize="12" />
-              </StackPanel>
-              <Border Background="{StaticResource AccentSoftBrush}" CornerRadius="999" Padding="10,5"
-                      VerticalAlignment="Top" HorizontalAlignment="Right">
-                <TextBlock Text="仅摘要" Foreground="{StaticResource AccentDeepBrush}" FontSize="11" FontWeight="SemiBold" />
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+              </Grid.RowDefinitions>
+
+              <Grid Grid.Row="0">
+                <StackPanel>
+                  <TextBlock Text="AI 摘要" Style="{StaticResource Eyebrow}" />
+                  <TextBlock Text="{Binding ResultTitle}" FontSize="22" FontWeight="SemiBold"
+                             Foreground="{StaticResource InkBrush}" TextWrapping="Wrap" Margin="0,5,0,3" />
+                  <TextBlock Text="{Binding ResultMeta}" Style="{StaticResource MutedText}" FontSize="11.5" />
+                </StackPanel>
+                <Border Background="{StaticResource AccentSoftBrush}" CornerRadius="999" Padding="9,4"
+                        VerticalAlignment="Top" HorizontalAlignment="Right">
+                  <TextBlock Text="仅摘要" Foreground="{StaticResource AccentDeepBrush}" FontSize="10.5" FontWeight="SemiBold" />
+                </Border>
+              </Grid>
+
+              <Border Grid.Row="1" Background="{StaticResource Surface2Brush}" BorderBrush="{StaticResource AccentBrush}"
+                      BorderThickness="4,0,0,0" CornerRadius="0,9,9,0" Padding="16" Margin="0,13,0,0">
+                <TextBlock Text="{Binding Summary}" FontSize="14.5" Foreground="#3F3D35"
+                           TextWrapping="Wrap" LineHeight="24" />
               </Border>
-            </Grid>
 
-            <Border Background="{StaticResource Surface2Brush}" BorderBrush="{StaticResource AccentBrush}"
-                    BorderThickness="4,0,0,0" CornerRadius="0,10,10,0" Padding="18" Margin="0,18,0,0">
-              <TextBlock Text="{Binding Summary}" FontSize="15.5" Foreground="#3F3D35"
-                         TextWrapping="Wrap" LineHeight="26" />
-            </Border>
-
-            <TextBlock Text="文章在讲什么" Style="{StaticResource Eyebrow}" Margin="0,20,0,0" />
-            <TextBlock Text="{Binding Explanation}" FontSize="14" Foreground="#3F3D35"
-                       TextWrapping="Wrap" LineHeight="25" Margin="0,8,0,0" />
-
-            <TextBlock Text="关键观点" Style="{StaticResource Eyebrow}" Margin="0,20,0,0" />
-            <ItemsControl ItemsSource="{Binding Analysis.KeyIdeas}" Margin="0,8,0,0">
-              <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                  <Border Background="{StaticResource SurfaceBrush}" BorderBrush="{StaticResource LineBrush}"
-                          BorderThickness="1" CornerRadius="10" Padding="14" Margin="0,0,0,8">
-                    <StackPanel>
-                      <TextBlock Text="{Binding Idea}" FontSize="13.5" FontWeight="SemiBold"
-                                 Foreground="{StaticResource InkBrush}" TextWrapping="Wrap" />
-                      <TextBlock Text="{Binding WhyItMatters}" Style="{StaticResource MutedText}" FontSize="12"
-                                 TextWrapping="Wrap" Margin="0,4,0,0" />
-                      <TextBlock Text="{Binding Quote}" FontSize="11.5" FontStyle="Italic"
-                                 Foreground="{StaticResource MutedBrush}" TextWrapping="Wrap" Margin="0,4,0,0" />
-                    </StackPanel>
-                  </Border>
-                </DataTemplate>
-              </ItemsControl.ItemTemplate>
-            </ItemsControl>
-
-            <Border Background="{StaticResource AccentSoftBrush}" CornerRadius="10" Padding="14" Margin="0,8,0,0">
-              <StackPanel>
-                <TextBlock Text="{Binding WhoItSuits}" FontSize="12" Foreground="{StaticResource AccentDeepBrush}"
-                           TextWrapping="Wrap" />
-                <TextBlock Text="{Binding ReadingTip}" FontSize="12" Foreground="{StaticResource AccentDeepBrush}"
-                           TextWrapping="Wrap" Margin="0,4,0,0"
-                           Visibility="{Binding HasReadingTip, Converter={StaticResource BoolToVis}}" />
+              <StackPanel Grid.Row="2" Margin="0,13,0,0">
+                <TextBlock Text="关键观点" Style="{StaticResource Eyebrow}" />
+                <ItemsControl ItemsSource="{Binding Analysis.KeyIdeas}" Margin="0,7,0,0">
+                  <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                      <Grid Margin="0,0,0,6">
+                        <Grid.ColumnDefinitions>
+                          <ColumnDefinition Width="Auto" />
+                          <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="•" Foreground="{StaticResource AccentBrush}"
+                                   FontSize="13" Margin="0,0,8,0" VerticalAlignment="Top" />
+                        <TextBlock Grid.Column="1" Text="{Binding Idea}" FontSize="13" Foreground="#3F3D35"
+                                   TextWrapping="Wrap" LineHeight="21" />
+                      </Grid>
+                    </DataTemplate>
+                  </ItemsControl.ItemTemplate>
+                </ItemsControl>
               </StackPanel>
-            </Border>
 
-            <Grid Margin="0,18,0,0">
-              <StackPanel Orientation="Horizontal">
-                <Button Content="打开原文 ↗" Command="{Binding OpenUrlCommand}" Style="{StaticResource PrimaryButton}"
-                        AutomationProperties.AutomationId="OpenOriginalButton" />
-                <Button Content="换一篇" Command="{Binding ResetCommand}" Style="{StaticResource SecondaryButton}"
-                        Margin="10,0,0,0" />
-              </StackPanel>
-              <TextBlock Text="原文链接来自你粘贴的网址，正文不会保存到本地。"
-                         Style="{StaticResource MutedText}" FontSize="11" HorizontalAlignment="Right"
-                         VerticalAlignment="Center" TextWrapping="Wrap" MaxWidth="300" />
+              <Grid Grid.Row="3" Margin="0,11,0,0">
+                <StackPanel Orientation="Horizontal">
+                  <Button Content="打开原文 ↗" Command="{Binding OpenUrlCommand}" Style="{StaticResource PrimaryButton}"
+                          AutomationProperties.AutomationId="OpenOriginalButton" />
+                  <Button Content="换一篇" Command="{Binding ResetCommand}" Style="{StaticResource SecondaryButton}"
+                          Margin="9,0,0,0" />
+                </StackPanel>
+                <TextBlock Text="正文不保存，只保留这条原文链接。" Style="{StaticResource MutedText}"
+                           FontSize="11" HorizontalAlignment="Right" VerticalAlignment="Center" />
+              </Grid>
             </Grid>
-          </StackPanel>
-        </Border>
+          </Border>
 
-        <Border Background="#FAF8F1" BorderBrush="{StaticResource LineBrush}" BorderThickness="1"
-                CornerRadius="18" Padding="28" Margin="0,20,0,0"
-                Visibility="{Binding IsEmpty, Converter={StaticResource BoolToVis}}">
-          <StackPanel>
-            <TextBlock Text="粘贴一个博客网址" FontSize="20" FontWeight="SemiBold" Foreground="{StaticResource InkBrush}" />
-            <TextBlock Text="摘要会出现在这里。不保存正文，不生成任务，只给你一个直达原文的链接。"
-                       Style="{StaticResource MutedText}" TextWrapping="Wrap" Margin="0,8,0,0" />
-          </StackPanel>
-        </Border>
-      </StackPanel>
-    </ScrollViewer>
-
-    <Border Grid.Row="2" BorderBrush="{StaticResource LineBrush}" BorderThickness="0,1,0,0" Padding="32,14">
-      <Grid>
-        <TextBlock Text="Todo Dashboard · 0.1.0" FontSize="11" Foreground="{StaticResource MutedBrush}" />
-        <TextBlock Text="不保存正文 · 只给原文链接" FontSize="11" Foreground="{StaticResource MutedBrush}"
-                   HorizontalAlignment="Right" />
+          <Border Background="#FAF8F1" BorderBrush="{StaticResource LineBrush}" BorderThickness="1"
+                  CornerRadius="18" Padding="28"
+                  Visibility="{Binding IsEmpty, Converter={StaticResource BoolToVis}}">
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+              <TextBlock Text="粘贴一个博客网址" FontSize="20" FontWeight="SemiBold"
+                         Foreground="{StaticResource InkBrush}" HorizontalAlignment="Center" />
+              <TextBlock Text="摘要会出现在这里。不保存正文，不生成任务，只给一个直达原文的链接。"
+                         Style="{StaticResource MutedText}" TextWrapping="Wrap" Margin="0,8,0,0"
+                         MaxWidth="460" TextAlignment="Center" />
+            </StackPanel>
+          </Border>
+        </Grid>
       </Grid>
-    </Border>
+    </Grid>
+
+    <!-- History view: scrollable timeline + detail -->
+    <Grid Grid.Row="1" DataContext="{Binding History}"
+          Visibility="{Binding DataContext.IsHistoryView, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource BoolToVis}}">
+      <Grid Margin="32,20,32,22">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="*" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+          <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+            <TextBlock Text="历史" FontSize="24" FontWeight="SemiBold" Foreground="{StaticResource InkBrush}" />
+            <Border Background="{StaticResource AccentSoftBrush}" CornerRadius="999" Padding="9,4" Margin="10,0,0,0"
+                    VerticalAlignment="Center">
+              <TextBlock Text="{Binding CountText}" FontSize="11" Foreground="{StaticResource AccentDeepBrush}" />
+            </Border>
+          </StackPanel>
+          <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="导入 CSV（覆盖）" Command="{Binding ImportCommand}" Style="{StaticResource SecondaryButton}"
+                    Margin="0,0,8,0" />
+            <Button Content="打开文件夹" Command="{Binding OpenFolderCommand}" Style="{StaticResource SecondaryButton}" />
+          </StackPanel>
+        </Grid>
+
+        <TextBlock Grid.Row="1" Text="{Binding CsvPath}" Style="{StaticResource MutedText}" FontSize="10.5"
+                   TextTrimming="CharacterEllipsis" Margin="0,6,0,0" ToolTip="{Binding CsvPath}" />
+
+        <Grid Grid.Row="2" Margin="0,12,0,0">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300" />
+            <ColumnDefinition Width="12" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+
+          <Border Grid.Column="0" Style="{StaticResource CardBorder}" Padding="12">
+            <Grid>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+              </Grid.RowDefinitions>
+              <TextBlock Grid.Row="0" Text="时间线" Style="{StaticResource Eyebrow}" Margin="8,4,0,8" />
+              <Border Grid.Row="1" Width="2" Background="{StaticResource LineBrush}"
+                      HorizontalAlignment="Left" Margin="11,16,0,0" IsHitTestVisible="False" />
+              <ListBox Grid.Row="1" Style="{StaticResource TimelineList}"
+                       ItemsSource="{Binding Entries}"
+                       SelectedItem="{Binding SelectedEntry, Mode=TwoWay}"
+                       AutomationProperties.AutomationId="HistoryList">
+                <ListBox.ItemTemplate>
+                  <DataTemplate>
+                    <Grid>
+                      <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="24" />
+                        <ColumnDefinition Width="*" />
+                      </Grid.ColumnDefinitions>
+                      <Ellipse Grid.Column="0" Width="8" Height="8" Fill="{StaticResource AccentBrush}"
+                               HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,14,0,0" />
+                      <StackPanel Grid.Column="1" Margin="6,6,4,12">
+                        <TextBlock Text="{Binding DateText}" FontSize="10.5" Foreground="{StaticResource MutedBrush}" />
+                        <TextBlock Text="{Binding Title}" FontSize="12.5" FontWeight="SemiBold"
+                                   Foreground="{StaticResource InkBrush}" TextWrapping="Wrap"
+                                   TextTrimming="CharacterEllipsis" MaxHeight="38" Margin="0,2,0,2" />
+                        <TextBlock Text="{Binding TimeText}" FontSize="10" Foreground="{StaticResource MutedBrush}" />
+                      </StackPanel>
+                    </Grid>
+                  </DataTemplate>
+                </ListBox.ItemTemplate>
+              </ListBox>
+              <TextBlock Grid.Row="1" Text="还没有历史记录。生成第一篇摘要后会自动出现在这里。"
+                         Style="{StaticResource MutedText}" FontSize="12" TextWrapping="Wrap" Margin="8,4,0,0"
+                         VerticalAlignment="Top"
+                         Visibility="{Binding IsEmpty, Converter={StaticResource BoolToVis}}" />
+            </Grid>
+          </Border>
+
+          <Border Grid.Column="2" Style="{StaticResource CardBorder}" Padding="24">
+            <Grid>
+              <ScrollViewer VerticalScrollBarVisibility="Auto"
+                            Visibility="{Binding HasSelected, Converter={StaticResource BoolToVis}}">
+                <StackPanel>
+                  <TextBlock Text="{Binding SelectedEntry.DateText}" Style="{StaticResource Eyebrow}" />
+                  <TextBlock Text="{Binding SelectedEntry.Title}" FontSize="24" FontWeight="SemiBold"
+                             Foreground="{StaticResource InkBrush}" TextWrapping="Wrap" Margin="0,6,0,4" />
+                  <TextBlock Text="{Binding SelectedEntry.MetaText}" Style="{StaticResource MutedText}" FontSize="11.5" />
+                  <Border Background="{StaticResource Surface2Brush}" BorderBrush="{StaticResource AccentBrush}"
+                          BorderThickness="4,0,0,0" CornerRadius="0,9,9,0" Padding="16" Margin="0,16,0,0">
+                    <TextBlock Text="{Binding SelectedEntry.Summary}" FontSize="14" Foreground="#3F3D35"
+                               TextWrapping="Wrap" LineHeight="24" />
+                  </Border>
+                  <StackPanel Orientation="Horizontal" Margin="0,18,0,0">
+                    <Button Content="打开原文 ↗" Command="{Binding OpenSelectedUrlCommand}" Style="{StaticResource PrimaryButton}" />
+                  </StackPanel>
+                  <TextBlock Text="{Binding SelectedEntry.Url}" Style="{StaticResource MutedText}" FontSize="10.5"
+                             TextWrapping="Wrap" Margin="0,10,0,0" />
+                </StackPanel>
+              </ScrollViewer>
+
+              <TextBlock Text="从左边时间线选一条，看摘要。"
+                         Style="{StaticResource MutedText}" FontSize="13"
+                         HorizontalAlignment="Center" VerticalAlignment="Center"
+                         Visibility="{Binding IsEmpty, Converter={StaticResource BoolToVis}}" />
+            </Grid>
+          </Border>
+        </Grid>
+
+        <Border Grid.Row="3" Background="{StaticResource AccentSoftBrush}" CornerRadius="9" Padding="10,7"
+                Margin="0,10,0,0"
+                Visibility="{Binding HasNotice, Converter={StaticResource BoolToVis}}">
+          <TextBlock Text="{Binding Notice}" FontSize="11" Foreground="{StaticResource AccentDeepBrush}" TextWrapping="Wrap" />
+        </Border>
+      </Grid>
+    </Grid>
   </Grid>
 </Window>
