@@ -54,10 +54,10 @@ dotnet run --project desktop/TodoDashboard/TodoDashboard.csproj
 dotnet publish desktop/TodoDashboard/TodoDashboard.csproj -c Release -r win-x64 `
   --self-contained true `
   -p:PublishSingleFile=false `
-  -o desktop/publish-portable
+  -o desktop/TodoDashboard-portable
 ```
 
-把 `desktop/publish-portable` 整个文件夹（或 `TodoDashboard-portable.zip`）发给用户，双击 `TodoDashboard.exe` 即可。
+把 `desktop/TodoDashboard-portable` 整个文件夹（或 `TodoDashboard-portable.zip`）发给用户，双击 `TodoDashboard.exe` 即可。
 
 ## 如果双击 exe 没反应
 
@@ -80,12 +80,31 @@ dotnet publish desktop/TodoDashboard/TodoDashboard.csproj -c Release -r win-x64 
 - [x] 时间线竖向贯穿
 - [ ] 用真实 DeepSeek Key 跑几篇，打磨摘要质量
 
+## 目录结构
+
+```
+README.md              产品说明（当前你在看的）
+CHANGELOG.md           变更记录
+LICENSE                MIT
+desktop/TodoDashboard/ WPF 应用源码（唯一的代码目录）
+  ├─ Models/           数据模型：抓取结果、摘要、历史条目
+  ├─ Services/         抓取、DeepSeek 调用、CSV 历史、剪贴板、Key 存储
+  ├─ ViewModels/       MVVM：摘要页/历史页逻辑与命令
+  ├─ Views/            API Key 弹窗
+  └─ MainWindow.xaml   两页界面（摘要 / 历史）
+docs/ENGINEERING.md    工程规范：分支、提交、质量门禁
+docs/KNOWN_ISSUES.md   已知问题与历史排查记录
+docs/adr/              架构决策记录（0001 旧栈 / 0002 现用 WPF）
+docs/archive/          已不适用历史文档（PRD、章程、方法论、设计稿）
+.github/workflows/     CI：windows-latest 上构建 WPF
+```
+
 ## 文档
 
-- [项目章程](docs/CHARTER.md) — 为什么做、为谁做
-- [PRD](docs/PRD.md) — 历史需求；顶部有最终简化说明
 - [工程规范](docs/ENGINEERING.md) — 分支、提交、质量门禁与协作约定
-- [ADR-0002](docs/adr/0002-wpf-desktop.md) — 改用 .NET 8 + WPF
+- [已有问题](docs/KNOWN_ISSUES.md) — 已知问题与排查记录
+- [ADR-0002](docs/adr/0002-wpf-desktop.md) — 当前技术栈：.NET 8 + WPF
+- [归档文档](docs/archive/README.md) — 已废弃的 PRD / 章程 / 方法论 / 设计稿
 
 ## License
 
