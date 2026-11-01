@@ -74,7 +74,7 @@
     </Grid.RowDefinitions>
 
     <TextBlock Grid.Row="0" Text="连接 DeepSeek" FontSize="26" FontWeight="SemiBold" Foreground="#1D1C18" />
-    <TextBlock Grid.Row="1" Text="AI 拆解需要 DeepSeek API Key。它只会保存在 Windows 凭据管理器，不写进项目文件。"
+    <TextBlock Grid.Row="1" Text="AI 讲解需要 DeepSeek API Key。它只会保存在 Windows 凭据管理器，不写进项目文件。"
                FontSize="13" Foreground="#706D63" TextWrapping="Wrap" Margin="0,8,0,0" />
 
     <Border Grid.Row="2" Background="#FFFDF8" BorderBrush="#E2DDD0" BorderThickness="1" CornerRadius="11" Margin="0,18,0,0" Padding="12,4">

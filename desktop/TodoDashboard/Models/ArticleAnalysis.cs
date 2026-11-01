@@ -1,11 +1,12 @@
 namespace TodoDashboard.Models;
 
-public sealed class AnalysisResult
+public sealed class ArticleAnalysis
 {
     public string Summary { get; set; } = "";
     public List<KeyIdea> KeyIdeas { get; set; } = new();
-    public List<ActionItem> Actions { get; set; } = new();
-    public string? NoActionsReason { get; set; }
+    public string Explanation { get; set; } = "";
+    public string WhoItSuits { get; set; } = "";
+    public string? ReadingTip { get; set; }
 }
 
 public sealed class KeyIdea

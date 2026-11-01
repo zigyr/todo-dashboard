@@ -29,6 +29,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ActionRepository for reading/updating action files; ActionsViewModel and DropReasonWindow.
 - Portable folder build and `TodoDashboard-portable.zip`, which avoid single-file temp extraction issues.
 - Unified single-window shell with 今天 / 捕获 / 回顾 navigation; 今天 is the default view and hosts the action dashboard.
+- Weekly review: current-week completion/drop stats, drop-reason distribution, average cycle, guided notes, and `data/reviews/review-YYYY-Www.md` output.
+- ReviewViewModel, ReviewBuilder, ReviewStore, and ReviewView.
 
 ### Changed
 
@@ -36,6 +38,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Delivery split: M1 is URL capture and local save; DeepSeek analysis moves to M2.
 - Primary desktop path switched from Tauri/WebView2 to .NET 8 + WPF (ADR-0002); Tauri code kept as prototype.
 - WPF app verified end-to-end on a real blog: fetch → preview → save `.md` + `.json`.
+- AI direction changed: it now only analyzes and explains; it no longer splits articles into action lists. The user writes one task manually after reading the explanation.
+- Product simplified to summary-only: paste URL, fetch in memory, show AI summary/explanation/key ideas, and open the original link. Removed local article save, manual tasks, action dashboard, and weekly review.
 
 ### Fixed
 

@@ -1,32 +1,28 @@
 # Todo Dashboard
 
-> 粘贴一篇博客，把它变成下一步。
+> 粘贴一篇博客，AI 给你一段摘要。
 
-一个 Windows 桌面的 **reading-to-action** 工具。它不做通用任务管理，而是把「读到的想法」压缩成少量可执行动作，让你只关注当前这一件。
+一个 Windows 桌面小工具：**粘贴网址 → 抓取正文 → AI 摘要 → 打开原文链接**。
 
-![界面预览](design/app-preview.png)
+不保存正文，不生成任务，不做行动板，不做周复盘。
 
-![AI 拆解](design/app-ai.png)
-
-![统一界面](design/app-unified.png)
+![界面预览](design/app-summary.png)
 
 ## 现在能做什么
 
-- 顶部导航：**今天 / 捕获 / 回顾**，默认打开「今天」；
-- 粘贴一篇博客的网址；
-- 抓取标题、作者、发布日期、正文、字数；
-- 先看预览，确认后再保存；
-- 点「AI 拆解」，让 DeepSeek 把文章拆成 3–7 条可执行行动；
-- 勾选要保留的行动，保存到 `data/actions/*.md`；
-- 「今天」页按推荐分/由易到难/最新排序，突出一个「现在做」，支持开始、完成、放弃；
-- 状态变更直接写回 Markdown 文件；
-- 保存原文为 `data/sources/*.md` + `*.json`；
-- 捕获页左栏显示最近抓取和本地工作区；
-- 拦截 `localhost` 和内网地址，避免乱抓本机服务。
+- 粘贴一个博客网址；
+- 抓取标题、作者、发布日期、正文（只在内存里，不落盘）；
+- DeepSeek 生成：
+  - 一段摘要；
+  - 「文章在讲什么」的通俗讲解；
+  - 3–5 条关键观点；
+  - 适合谁读、一句阅读建议；
+- 点「打开原文 ↗」直达原博客；
+- 不保存正文，不生成任务，不拆解行动。
 
 ## API Key
 
-- 第一次点「AI 拆解」时会弹窗输入 DeepSeek API Key；
+- 第一次生成摘要时弹窗输入 DeepSeek API Key；
 - Key 保存在 Windows 凭据管理器，不写进项目文件；
 - 开发/测试时也可以用环境变量 `DEEPSEEK_API_KEY`，它会优先于凭据管理器。
 
@@ -34,8 +30,8 @@
 
 - **.NET 8 + WPF**（Windows 原生界面）
 - **AngleSharp** 解析 HTML
-- 自包含单文件 exe，用户电脑不需要安装 .NET
-- 数据是本地 JSON + Markdown，不锁进数据库
+- **DeepSeek** 生成摘要和讲解
+- 自包含便携版，用户电脑不需要安装 .NET
 
 ## 运行
 
@@ -45,66 +41,40 @@
 dotnet run --project desktop/TodoDashboard/TodoDashboard.csproj
 ```
 
-## 打包成单个 exe
+## 打包成便携版
 
 ```powershell
 dotnet publish desktop/TodoDashboard/TodoDashboard.csproj -c Release -r win-x64 `
   --self-contained true `
-  -p:PublishSingleFile=true `
-  -p:IncludeNativeLibrariesForSelfExtract=true `
-  -o desktop/publish
+  -p:PublishSingleFile=false `
+  -o desktop/publish-portable
 ```
 
-产物：`desktop/publish/TodoDashboard.exe`。
+把 `desktop/publish-portable` 整个文件夹（或 `TodoDashboard-portable.zip`）发给用户，双击 `TodoDashboard.exe` 即可。
 
 ## 如果双击 exe 没反应
 
-单文件版启动时，要把 WPF 的运行组件解压到系统临时目录。如果系统临时目录被权限限制，就会「双击没反应」。
+请用文件夹版 `TodoDashboard-portable.zip`，不要用单文件版。单文件版启动时要把 WPF 组件解压到系统临时目录；临时目录被权限限制时会没有反应。
 
-用文件夹版最稳：
+## 数据
 
-1. 解压 `desktop/TodoDashboard-portable.zip`；
-2. 双击里面的 `TodoDashboard.exe`；
-3. 数据保存在同目录的 `data/` 文件夹。
-
-文件夹版不需要临时目录，也不需要安装 .NET。
-
-## 数据放在哪
-
-- 默认：exe 同目录的 `data/`（便携，整个文件夹可以拷走）；
-- 开发时：仓库根目录的 `data/`；
-- 也可以用环境变量 `TODO_DASHBOARD_DATA_DIR` 指定。
+- 不保存文章正文；
+- 不建本地数据库；
+- 关闭程序后，只剩你主动打开的原文链接。
 
 ## 项目状态
 
-- [x] 界面设计图确认
-- [x] WPF 第一版：URL → 抓取 → 预览 → 保存
-- [x] 真实博客端到端验证（抓取、预览、保存成功）
-- [x] AI 拆解：DeepSeek → 3–7 条行动 → 勾选 → 保存（本地 mock 验证）
-- [x] 行动仪表盘：一个「现在做」+ 排序 + 开始/完成/放弃（状态写回文件）
-- [x] 合成单窗口：顶部「今天 / 捕获 / 回顾」，默认打开今天
-- [ ] 下一步：周复盘
-
-## 数据文件
-
-- `data/sources/*.md` / `*.json`：抓取的文章；
-- `data/actions/*.md`：AI 拆解后你确认保留的行动，带 YAML frontmatter；
-- 行动状态（next / doing / done / dropped）和放弃原因都会写回对应 `.md`；
-- 全部是普通文件，可以直接用 Obsidian / 记事本打开。
+- [x] URL → 抓取 → AI 摘要 → 原文链接
+- [x] 摘要、讲解、关键观点、适合谁、阅读建议
+- [x] 单窗口、米白简约风
+- [ ] 用真实 DeepSeek Key 跑几篇，打磨摘要质量
 
 ## 文档
 
-- [界面需求说明](design/REQUIREMENTS.md) — 给设计师看的版本
-- [项目章程](docs/CHARTER.md) — 为什么做、为谁做、不做什么
-- [PRD](docs/PRD.md) — v0.2，已确认
-- [方法论](docs/METHODOLOGY.md) — GTD、Personal Kanban、ICE/WSJF、执行意图
+- [项目章程](docs/CHARTER.md) — 为什么做、为谁做
+- [PRD](docs/PRD.md) — 历史需求；顶部有最终简化说明
 - [工程规范](docs/ENGINEERING.md) — 分支、提交、质量门禁与协作约定
-- [ADR-0002](docs/adr/0002-wpf-desktop.md) — 改用 .NET 8 + WPF（当前方案）
-- [已知问题](docs/KNOWN_ISSUES.md) — WebView2 问题的历史记录
-
-## 说明
-
-Tauri + React 的原型保留在 `src-tauri/`、`src/`，不再作为主路径；改用 WPF 的原因见 [ADR-0002](docs/adr/0002-wpf-desktop.md)。
+- [ADR-0002](docs/adr/0002-wpf-desktop.md) — 改用 .NET 8 + WPF
 
 ## License
 
